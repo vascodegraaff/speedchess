@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MyChess</title>
+    <style>
+        .chessboard {
+            width: 640px;
+            height: 640px;
+            margin: 20px;
+            border: 25px solid #333;
+        }
+        .dark {
+            background-color: #873e23!important;
+
+        }
+        .cell {
+            float: left;
+            width: 80px;
+            height: 80px;
+            background-color: #eab676;
+            font-size:50px;
+            text-align:center;
+            display: table-cell;
+            vertical-align:middle;
+        }
+
+        .dark:hover{
+            filter: brightness(50%);
+        }
+
+        .cell:hover {
+            filter: brightness(50%);
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="chessboard">
+        <div class="row8">
+            <div class='cell' id='a8' onclick="getPos('a8')">&#9820;</div>
+            <div class='dark cell' id='b8'>&#9822;</div>
+            <div class='cell' id='c8'> &#9821;</div>
+            <div class='dark cell' id='d8'>&#9819;</div>
+            <div class='cell' id='e8'>&#9818;</div>
+            <div class='dark cell' id='f8'> &#9821;</div>
+            <div class='cell' id='g8'>&#9822;</div>
+            <div class='dark cell' id='h8'>&#9820;</div>
+        </div>
+
+        <div class="row7">
+            <div class='dark cell' id='a7'>&#9823;</div>
+            <div class='cell' id='b7'>&#9823;</div>
+            <div class='dark cell' id='c7'>&#9823;</div>
+            <div class='cell' id='d7'>&#9823;</div>
+            <div class='dark cell' id='e7'>&#9823;</div>
+            <div class='cell' id='f7'>&#9823;</div>
+            <div class='dark cell' id='g7'>&#9823;</div>
+            <div class='cell' id='h7'>&#9823;</div>
+        </div>
+
+        <div class='row6'>
+            <div class='cell' id='a6'></div>
+            <div class='dark cell' id='b6'></div>
+            <div class='cell' id='c6'></div>
+            <div class='dark cell' id='d6'></div>
+            <div class='cell' id='e6'></div>
+            <div class='dark cell' id='f6'></div>
+            <div class='cell' id='g6'></div>
+            <div class='dark cell' id='h6'></div>
+        </div>
+
+        <div class='row5'>
+            <div class='dark cell' id='a5'></div>
+            <div class='cell' id='b5'></div>
+            <div class='dark cell' id='c5'></div>
+            <div class='cell' id='d5'></div>
+            <div class='dark cell' id='e5'></div>
+            <div class='cell' id='f5'></div>
+            <div class='dark cell' id='g5'></div>
+            <div class='cell' id='h5'></div>
+        </div>
+
+        <div class='row4'>
+            <div class='cell' id='a4'></div>
+            <div class='dark cell' id='b4'></div>
+            <div class='cell' id='c4'></div>
+            <div class='dark cell' id='d4'></div>
+            <div class='cell' id='e4'></div>
+            <div class='dark cell' id='f4'></div>
+            <div class='cell' id='g4'></div>
+            <div class='dark cell' id='h4'></div>
+        </div>
+
+        <div class='row3'>
+            <div class='dark cell' id='a3'></div>
+            <div class='cell' id='b3'></div>
+            <div class='dark cell' id='c3'></div>
+            <div class='cell' id='d3'></div>
+            <div class='dark cell' id='e3'></div>
+            <div class='cell' id='f3'></div>
+            <div class='dark cell' id='g3'></div>
+            <div class='cell' id='h3'></div>
+        </div>
+
+        <div class='row2'>
+            <div class='cell' id='a2'>&#9817;</div>
+            <div class='dark cell' id='b2'>&#9817;</div>
+            <div class='cell' id='c2'>&#9817;</div>
+            <div class='dark cell' id='d2'>&#9817;</div>
+            <div class='cell' id='e2'>&#9817;</div>
+            <div class='dark cell' id='f2'>&#9817;</div>
+            <div class='cell' id='g2'>&#9817;</div>
+            <div class='dark cell' id='h2'>&#9817;</div>
+        </div>
+
+        <div class='row1'>
+            <div class='dark cell' id='a1'>&#9814;</div>
+            <div class='cell' id='b1'>&#9816;</div>
+            <div class='dark cell' id='c1'>&#9815;</div>
+            <div class='cell' id='d1'>&#9813;</div>
+            <div class='dark cell' id='e1'>&#9812;</div>
+            <div class='cell' id='f1'>&#9815;</div>
+            <div class='dark cell' id='g1'>&#9816;</div>
+            <div class='cell' id='h1'>&#9814;</div>
+        </div>
+
+    </div>
+
+    <!-- Poor coding standard, only for demonstration purposes.
+             JavaScript code should not be part of HTML documents.
+        -->
+    <script src="javascripts/client.js"></script>
+</body>
+
+</html>
