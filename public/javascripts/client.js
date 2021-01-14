@@ -2,7 +2,7 @@ var url = 'ws://localhost:8080';
 const connection = new WebSocket(url);
 
 connection.onopen = () => {
-  connection.send('message from Client');
+  connection.send('Client connected');
 }
 
 connection.onerror = (error) => {
@@ -13,16 +13,17 @@ connection.onmessage = (e) => {
   console.log(`message recieved from server: ${e.data}`);
 }
 
-function selectPiece(){
 
+function moveValidate(from, to, piece){
+  connection.send(`Validate(${piece}-${from}:${to})`);
 }
 
 function move(from, to){
     console.log(`${from} : ${to}`);
-    //moveValidate(from,to);
-    initial = document.getElementById(from).textContent;
+    pieceName = document.getElementById(from).textContent;
+    moveValidate(from,to,pieceName);
     document.getElementById(from).textContent = '';
-    document.getElementById(to).textContent = initial;
+    document.getElementById(to).textContent = pieceName;
 }
 
 var piece1

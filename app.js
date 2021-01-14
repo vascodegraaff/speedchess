@@ -5,7 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 
-var http = require('http');
 var WebSocket = require('ws');
 
 
@@ -34,15 +33,48 @@ app.use('/play', playRouter);
 
 
 const wss = new WebSocket.Server({ port: 8080})
+var connectionID = 0;
+var gameID = 0;
+var games = {};
+var waitingPlayers = [];
+
+var gameID = 0;
 
 wss.on('connection', ws=> {
+  let connection = ws;
+  connectionID++;
+  connection.id = connectionID;
+  let playerType = waitingPlayers.length%2 == 1? 'white' : 'black';
+
+  newConnection(connection);
+
+  connection.send(playerType == 'white' ? "you are white": "you are black")
+  
   ws.on('message', message=>{
-    console.log(`Received message => ${message}`);
+    console.log(`Message: ${message}`);
   });
   ws.send("Hello from server");
 });
 
+function newConnection(socket, gameID){
+  waitingPlayers.push(socket);
 
+  socket.onclose = () => {
+    //removes connection when socket gets closed
+    waitingPlayers = waitingPlayers.filter(function(ele){
+      return ele != socket;
+    });
+  };
+  if(waitingPlayers.length >= 2) {
+    gameID++;
+    createGame(waitingPlayers[0], waitingPlayers[1], gameID);
+    waitingPlayers = waitingPlayers.splice(2);
+  }
+}
+function createGame(player1, player2, gameID){
+  var game = new Game(player1, player2, gameID);
+  console.log("game created");
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
