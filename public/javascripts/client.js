@@ -1,3 +1,5 @@
+const p = require('./pieces.js');
+
 var url = 'ws://localhost:8080';
 const connection = new WebSocket(url);
 
@@ -21,9 +23,20 @@ function moveValidate(from, to, piece){
 function move(from, to){
     console.log(`${from} : ${to}`);
     pieceName = document.getElementById(from).textContent;
-    moveValidate(from,to,pieceName);
+    moveValidate(moveParser(pieceName, from, to));
     document.getElementById(from).textContent = '';
     document.getElementById(to).textContent = pieceName;
+}
+
+function moveParser(piece, from, to){
+  var chessNotation;
+  if(piece === '&#9817' || piece === '&#9823'){
+    chessNotation = `${to}`;
+  }
+  else{
+    chessNotation = `${p.translate(piece)} ${to}`;
+  }
+  return chessNotation;
 }
 
 var piece1
