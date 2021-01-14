@@ -6,8 +6,7 @@ var logger = require('morgan');
 
 
 var http = require('http');
-var websocket = require('ws');
-var port = '3000';
+var WebSocket = require('ws');
 
 
 var indexRouter = require('./routes/index');
@@ -34,34 +33,16 @@ app.use('/play', playRouter);
 //websocket code
 
 
-var server = http.createServer(app);
-const wss = new websocket.Server({ server });
+const wss = new WebSocket.Server({ port: 8080})
 
-var activeGames = {};
-
-setInterval(function() {
-  for( let i in activeGames){
-    if(Object.prototype.hasOwnProperty.call(activeGames,i)){
-      let gameObj = activeGames[i];
-
-      if(gameObj.finalStatus !=null){
-        delete activeGames[i];
-      }
-    }
-  }
+wss.on('connection', ws=> {
+  ws.on('message', message=>{
+    console.log(`Received message => ${message}`);
+  });
+  ws.send("Hello from server");
 });
 
-var currentGame = new Game();
-var connectionID = 0;
 
-wss.on("connection", function connection(ws){
-  let connection = ws;
-  connection.id = connectionID++;
-  let playerType = currentGame.addPlayer(connection);
-  activeGames[connection.id] = currentGame;
-
-  console.log("player %s is now in game: %s as %s", connection.id, currentGame.id, playerType);
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

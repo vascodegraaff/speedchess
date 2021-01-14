@@ -1,5 +1,24 @@
+var url = 'ws://localhost:8080';
+const connection = new WebSocket(url);
+
+connection.onopen = () => {
+  connection.send('message from Client');
+}
+
+connection.onerror = (error) => {
+  console.log(`WebSocket error: ${error}`);
+}
+
+connection.onmessage = (e) => {
+  console.log(`message recieved from server: ${e.data}`);
+}
+
+function selectPiece(){
+
+}
 
 function move(from, to){
+    console.log(`${from} : ${to}`);
     //moveValidate(from,to);
     initial = document.getElementById(from).textContent;
     document.getElementById(from).textContent = '';
