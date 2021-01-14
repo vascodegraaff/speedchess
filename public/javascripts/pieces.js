@@ -3,8 +3,8 @@ const pieceNum = ['&#9814', '&#9816', '&#9815', '&#9813', '&#9812', '&#9817', '&
 
 function translate(pieceCode){
     var i = 0;
-    for(i = 0; i<piecenum.length; i++){
-        if(piecenum[i] === pieceCode){
+    for(i = 0; i<pieceNum.length; i++){
+        if(pieceNum[i] === pieceCode){
             break;
         }
     }
@@ -12,4 +12,4 @@ function translate(pieceCode){
     return code[i];
 }
 
-module.exports.translate = translate;
+exports.translate = translate;

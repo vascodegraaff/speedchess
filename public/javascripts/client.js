@@ -1,4 +1,3 @@
-const p = require('./pieces.js');
 
 var url = 'ws://localhost:8080';
 const connection = new WebSocket(url);
@@ -21,12 +20,41 @@ connection.onmessage = (e) => {
   }
 }
 
+var map = {0:'a', 1:'b', 2:'c', 3:'d', 4:'e', 5:'f',6:'g',7:'h'};
+var map2 = {1:8, 2:7}
+
+var map3 = {
+  "w": {
+    "r": '♖',
+    "n": '♘',
+    "b": '♗',
+    "q": '♕',
+    "k": '♔',
+    "p": '♙'
+  },
+  "b": {
+      "r": '♜',
+      "n": '♞',
+      "b": '♝',
+      "q": '♛',
+      "k": '♚',
+      "p": '♟︎'
+  }
+}
 renderBoard = (board) => {
+  console.log(board);
   for(i=0; i<8;i++){
     for(j=0; j<8; j++){
-      console.log(board[i][j]);
+      id = map[j] + (8-i);
+      console.log(id);
       if(board[i][j] != null){
-        
+        x = board[i][j];
+        console.log(x.color, x.type);
+        console.log(map3[board[i][j].color][board[i][j].type]);
+        document.getElementById(id).textContent = map3[board[i][j].color][board[i][j].type];
+      }
+      if(board[i][j] == null){
+        document.getElementById(id).textContent = "";
       }
     }
   }
@@ -51,8 +79,9 @@ function moveParser(piece, from, to){
     chessNotation = `${to}`;
   }
   else{
-    chessNotation = `${p.translate(piece)} ${to}`;
+    chessNotation = `${translate(piece)} ${to}`;
   }
+  console.log(chessNotation);
   return chessNotation;
 }
 
