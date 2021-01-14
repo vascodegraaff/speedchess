@@ -8,25 +8,62 @@
                 background: repeating-conic-gradient(#818181 0% 25%, transparent 0% 50%) 50% / 100px 100px;
                 text-align: center;
             }
+            
+            h1{
+                margin-top:2%;
+                margin-bottom: 5%;
+                font-size: 50px;
+            }
 
             #loading {
-    		    -webkit-animation: rotation 3s infinite linear;
-                margin-top:15%;
+    		        -webkit-animation: rotation 3s infinite linear;
+                margin-top:5%;
                 margin-bottom: 5%;
             }
 
-            .spin {
-                text-align: center;
-                display: inline-block;
-                width: 100px;
-                height: 100px;
-                border: 10px solid rgba(255, 255, 255, .3);
-                border-radius: 50%;
-                border-top-color: rgb(0, 0, 0);
-                animation: spin 1s ease-in-out infinite;
-                -webkit-animation: spin 1s ease-in-out infinite;
-                
+            .button_container {
+                margin-top:5%;
+                margin-bottom: 5%;
             }
+            .button {
+              border: none;
+              display: block;
+              text-align: center;
+              cursor: pointer;
+              text-transform: uppercase;
+              outline: none;
+              overflow: hidden;
+              position: relative;
+              color: #eeeeee;
+              font-weight: 600;
+              font-size: 15px;
+              background-color: #6e4547;
+              padding: 20px 100px;
+              margin: 0 auto;
+            }
+            .button span {
+              position: relative;
+              z-index: 1;
+            }
+            .button:after {
+              content: "";
+              position: absolute;
+              left: -17px;
+              top: -63px;
+              height: 470%;
+              width: 140%;
+              background: #131111;
+              -webkit-transition: all .5s ease-in-out;
+              transition: all .5s ease-in-out;
+              -webkit-transform: translateX(-100%) translateY(0%) rotate(0deg);
+              transform: translateX(-100%) translateY(-25%) rotate(45deg);
+            
+            }
+            .button:hover:after {
+              -webkit-transform: translateX(-9%) translateY(-0%) rotate(0deg);
+              transform: translateX(-9%) translateY(-25%) rotate(0deg);
+            }
+
             @keyframes spin {
                 to {
                 -webkit-transform: rotate(360deg);
@@ -37,12 +74,6 @@
                 -webkit-transform: rotate(360deg);
                 }
             }
-
-            
-
-
-           
-
             @-webkit-keyframes rotation {
         		from {
     				-webkit-transform: rotate(0deg);
@@ -51,13 +82,19 @@
        				-webkit-transform: rotate(359deg);
 	       	    }
             }   
+
         </style>
     </head>
     <body>
-        <h1>Chess cool</h1>
+        <h1>Chess</h1
+        <div class = "button_container">
+          <button type="button" class="button">
+            <span>Play!</span>
+          </button>
+        </div>
+       
         <div>
             <img id="loading" src="splash-icon.png" width="300" height="300">
         </div>
-        <div class="spin"></div>
     </body>
 </html>
