@@ -5,9 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 
-var http = require('http');
-var websocket = require('ws');
-var port = '3000';
+var WebSocket = require('ws');
 
 
 var indexRouter = require('./routes/index');
@@ -34,34 +32,49 @@ app.use('/play', playRouter);
 //websocket code
 
 
-var server = http.createServer(app);
-const wss = new websocket.Server({ server });
-
-var activeGames = {};
-
-setInterval(function() {
-  for( let i in activeGames){
-    if(Object.prototype.hasOwnProperty.call(activeGames,i)){
-      let gameObj = activeGames[i];
-
-      if(gameObj.finalStatus !=null){
-        delete activeGames[i];
-      }
-    }
-  }
-});
-
-var currentGame = new Game();
+const wss = new WebSocket.Server({ port: 8080})
 var connectionID = 0;
+var gameID = 0;
+var games = {};
+var waitingPlayers = [];
 
-wss.on("connection", function connection(ws){
+var gameID = 0;
+
+wss.on('connection', ws=> {
   let connection = ws;
-  connection.id = connectionID++;
-  let playerType = currentGame.addPlayer(connection);
-  activeGames[connection.id] = currentGame;
+  connectionID++;
+  connection.id = connectionID;
+  let playerType = waitingPlayers.length%2 == 1? 'white' : 'black';
 
-  console.log("player %s is now in game: %s as %s", connection.id, currentGame.id, playerType);
+  newConnection(connection);
+
+  connection.send(playerType == 'white' ? "you are white": "you are black")
+  
+  ws.on('message', message=>{
+    console.log(`Message: ${message}`);
+  });
+  ws.send("Hello from server");
 });
+
+function newConnection(socket, gameID){
+  waitingPlayers.push(socket);
+
+  socket.onclose = () => {
+    //removes connection when socket gets closed
+    waitingPlayers = waitingPlayers.filter(function(ele){
+      return ele != socket;
+    });
+  };
+  if(waitingPlayers.length >= 2) {
+    gameID++;
+    createGame(waitingPlayers[0], waitingPlayers[1], gameID);
+    waitingPlayers = waitingPlayers.splice(2);
+  }
+}
+function createGame(player1, player2, gameID){
+  var game = new Game(player1, player2, gameID);
+  console.log("game created");
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

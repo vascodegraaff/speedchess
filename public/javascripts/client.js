@@ -1,9 +1,29 @@
+var url = 'ws://localhost:8080';
+const connection = new WebSocket(url);
+
+connection.onopen = () => {
+  connection.send('Client connected');
+}
+
+connection.onerror = (error) => {
+  console.log(`WebSocket error: ${error}`);
+}
+
+connection.onmessage = (e) => {
+  console.log(`message recieved from server: ${e.data}`);
+}
+
+
+function moveValidate(from, to, piece){
+  connection.send(`Validate(${piece}-${from}:${to})`);
+}
 
 function move(from, to){
-    //moveValidate(from,to);
-    initial = document.getElementById(from).textContent;
+    console.log(`${from} : ${to}`);
+    pieceName = document.getElementById(from).textContent;
+    moveValidate(from,to,pieceName);
     document.getElementById(from).textContent = '';
-    document.getElementById(to).textContent = initial;
+    document.getElementById(to).textContent = pieceName;
 }
 
 var piece1
