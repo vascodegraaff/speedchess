@@ -67,12 +67,12 @@ function newConnection(socket, gameID){
   };
   if(waitingPlayers.length >= 2) {
     gameID++;
-    createGame(waitingPlayers[0], waitingPlayers[1], gameID);
+    createGame(waitingPlayers[0], waitingPlayers[1], gameID, socket);
     waitingPlayers = waitingPlayers.splice(2);
   }
 }
-function createGame(player1, player2, gameID){
-  var game = new Game(player1, player2, gameID);
+function createGame(player1, player2, gameID, socket){
+  var game = new Game(player1, player2, gameID, socket);
   console.log("game created");
 }
 

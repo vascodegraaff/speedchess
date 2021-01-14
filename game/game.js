@@ -2,7 +2,7 @@ const { Chess } = require('./chess.js');
 
 
 class Game {
-    constructor(player1, player2, gameID) {
+    constructor(player1, player2, gameID, socket) {
         this.player1 = player1;
         this.player2 = player2;
         this.chess = new Chess();
@@ -11,16 +11,16 @@ class Game {
         this.gameID = gameID;
         console.log(this.gameID);
 
-        this.createGame();
+        this.createGame(this.player1, this.player2, socket);
     }
 
-    createGame(player1, player2){
+    createGame(player1, player2, socket){
         this.makeMove('e4');
-        console.log(this.chess.ascii());
-        console.log(this.chess.board());
+        // console.log(this.chess.ascii());
+        // console.log(this.chess.board());
         this.makeMove('e5');
         console.log(this.chess.ascii());
-        connection.send(this.chess.board());
+        socket.send(JSON.stringify(this.chess.board()));
     }
 
     moveValidate(move){
