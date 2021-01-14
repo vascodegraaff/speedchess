@@ -10,7 +10,24 @@ connection.onerror = (error) => {
 }
 
 connection.onmessage = (e) => {
-  console.log(`message recieved from server: ${e.data}`);
+  //console.log(`message recieved: ${e.data}`);
+  // console.log(e.date instanceof Blob);
+  x = JSON.parse(e.data);
+
+  if(x instanceof Array){
+    renderBoard(x);
+  }
+}
+
+renderBoard = (board) => {
+  for(i=0; i<8;i++){
+    for(j=0; j<8; j++){
+      console.log(board[i][j]);
+      if(board[i][j] != null){
+        
+      }
+    }
+  }
 }
 
 
