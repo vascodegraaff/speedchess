@@ -74,13 +74,15 @@ function move(from, to){
 }
 
 function moveParser(piece, from, to){
-  var chessNotation;
-  if(piece === '&#9817' || piece === '&#9823'){
-    chessNotation = `${to}`;
-  }
-  else{
-    chessNotation = `${translate(piece)} ${to}`;
-  }
+    var chessNotation;
+    if(piece === '♟︎' || piece === '♙'){
+      chessNotation = `${to}`;
+    }
+    else{
+      chessNotation = `${translate(piece)}${to}`;
+    }
+  
+  
   console.log(chessNotation);
   return chessNotation;
 }

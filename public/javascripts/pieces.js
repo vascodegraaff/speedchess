@@ -1,5 +1,5 @@
-const code = ['r', 'n', 'b', 'q', 'k', 'p', 'r', 'n', 'b', 'q', 'k', 'p'];
-const pieceNum = ['&#9814', '&#9816', '&#9815', '&#9813', '&#9812', '&#9817', '&#9820', '&#9822', '&#9821', '&#9819', '&#9818', '&#9823'];
+const code = ['R', 'N', 'B', 'Q', 'K', 'P', 'R', 'N', 'B', 'Q', 'K', 'P'];
+const pieceNum = ['♖', '♘', '♗', '♕', '♔', '♙', '♜', '♞', '♝', '♛', '♚', '♟︎'];
 
 function translate(pieceCode){
     var i = 0;
@@ -11,5 +11,3 @@ function translate(pieceCode){
 
     return code[i];
 }
-
-exports.translate = translate;
