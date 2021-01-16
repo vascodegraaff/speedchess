@@ -1,6 +1,5 @@
-
-//var url = 'ws://localhost:8080';
-var url = 'wss://speedchezz.herokuapp.com:8080'
+//var url = 'wss://speedchezz.herokuapp.com:8080'
+var url = 'ws://localhost:8080';
 const socket = new WebSocket(url);
 
 let gameID = {};
@@ -9,8 +8,6 @@ let moveCounter = 0;
 let currentColor;
 let captures = [];
 let possibleMoves = [];
-
-
 
 socket.onopen = () => {
 	msg = {
@@ -32,6 +29,9 @@ socket.onmessage = (e) => {
 		case "CLIENT_DATA":
 			clientColor = message.color;
 			gameID = message.game;
+			if(clientColor=="BLACK"){
+				document.body.classList += "blackBoard"
+			}
 			break;
 		case "BOARD_STATE":
 			renderBoard(message.data);
@@ -40,18 +40,9 @@ socket.onmessage = (e) => {
 			currentColor = possibleMoves[0].color=='w'?"WHITE":"BLACK";
 			//console.log(currentColor, clientColor);
 			break;
-
-		
 		default:
 			break;
 	}
-	// if(currentColor==clientColor&&currentColor!=null&&clientColor!=null){
-	// 	//console.log(`current Color:${currentColor}, clientColor: ${clientColor}`);
-	// 	waitForMove();
-	// }
-	// if(x instanceof Array){
-	//   renderBoard(x);
-	// }
 }
 
 var map = { 0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h' };
@@ -74,7 +65,7 @@ var map3 = {
 		"p": '♟︎'
 	}
 }
-renderBoard = (board) => {
+function renderBoard(board){
 	for (i = 0; i < 8; i++) {
 		for (j = 0; j < 8; j++) {
 			id = map[j] + (8 - i);
@@ -147,9 +138,9 @@ function waitForMove(){
 					clickCounter = 0;
 					move(piece1, piece2);
 					document.getElementById(piece1).style.boxShadow = "none";
-
 				} 
 			}
 		})
 	})
 }
+waitForMove();
