@@ -5,8 +5,10 @@ const socket = new WebSocket(url);
 let gameID = {};
 let clientColor;
 let moveCounter = 0;
-let currentColor = "WHITE";
+let currentColor;
 let captures = [];
+let possibleMoves = [];
+
 
 
 socket.onopen = () => {
@@ -26,20 +28,29 @@ socket.onmessage = (e) => {
 	let message = JSON.parse(e.data);
 	console.log(message);
 	switch (message.type) {
-		case "BOARD_STATE":
-			renderBoard(message.data);
-			moveCounter = message.moveCount;
-			currentColor = moveCounter % 2 ? "BLACK" : "WHITE";
-			break;
-
 		case "CLIENT_DATA":
 			clientColor = message.color;
 			gameID = message.game;
+			if(clientColor=="BLACK"){
+				document.body.classList += "blackBoard"
+			}
 			break;
+		case "BOARD_STATE":
+			renderBoard(message.data);
+			moveCounter = message.moveCount;
+			possibleMoves = message.possibleMoves
+			currentColor = possibleMoves[0].color=='w'?"WHITE":"BLACK";
+			//console.log(currentColor, clientColor);
+			break;
+
+		
 		default:
 			break;
 	}
-
+	// if(currentColor==clientColor&&currentColor!=null&&clientColor!=null){
+	// 	//console.log(`current Color:${currentColor}, clientColor: ${clientColor}`);
+	// 	waitForMove();
+	// }
 	// if(x instanceof Array){
 	//   renderBoard(x);
 	// }
@@ -103,50 +114,44 @@ function move(from, to) {
 
 function moveParser(piece1,piece2, from, to) {
 	var chessNotation;
-	console.log(piece2);
-	// if (piece1 === '♟︎' || piece1 === '♙') {
-	// 	if(captures){
-	// 		chessNotation = `${from[0]}x${to}`;
-	// 		console.log(chessNotation);
-	// 	}else{
-	// 		chessNotation = `${to}`;
-	// 	}
-	// }
-	// else {
-	// 	chessNotation = `${translate(piece)}${to}`;
-	// }
+	//console.log(piece2);
 	chessNotation = {
 		from: from,
 		to: to,
 	}
-	console.log(chessNotation);
+	//deals with pawn promotions
+	if (piece1 === '♟︎' || piece1 === '♙') {
+		if(to[1]==8 || to[1]==1){
+			chessNotation.promotion = "q"
+		}
+	}
+	//console.log(chessNotation);
 	return chessNotation;
 }
 
 
-
-
-
-var clickCounter = 0;
-var piece1;
-var piece2;
-document.querySelectorAll('.cell').forEach(item => {
-	item.addEventListener('click', event => {
-		//only listens for moves when the currentColor is the same as clientColor
-		if (clientColor == currentColor) {
-            //checks if two pieces are clicked
-			if(clickCounter == 0) {
-                piece1 = item.id;
-                document.getElementById(piece1).style.boxShadow = "inset 0px 0px 400px 110px rgba(0, 0, 0, .7)";
-				clickCounter++;
-			}else{
-				piece2 = item.id
-				clickCounter = 0;
-				move(piece1, piece2);
-				document.getElementById(piece1).style.boxShadow = "none";
-
-			} 
-
-		}
+function waitForMove(){
+	//console.log(clientColor,currentColor);
+	var clickCounter = 0;
+	var piece1;
+	var piece2;
+	document.querySelectorAll('.cell').forEach(item => {
+		item.addEventListener('click', event => {
+			//only listens for moves when the currentColor is the same as clientColor
+				//checks if two pieces are clicked
+			if(currentColor==clientColor&&clientColor!=undefined&&currentColor!=undefined){
+				if(clickCounter == 0) {
+					piece1 = item.id;
+					document.getElementById(piece1).style.boxShadow = "inset 0px 0px 400px 110px rgba(0, 0, 0, .7)";
+					clickCounter++;
+				}else{
+					piece2 = item.id
+					clickCounter = 0;
+					move(piece1, piece2);
+					document.getElementById(piece1).style.boxShadow = "none";
+				} 
+			}
+		})
 	})
-})
+}
+waitForMove();

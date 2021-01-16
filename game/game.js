@@ -8,6 +8,8 @@ class Game {
         this.socket2.color = "WHITE";
         this.socket1.color = "BLACK";
         this.chess = new Chess();
+        //testing with different game states
+        //this.chess = new Chess("rnb1kbnr/pppP1ppp/5q2/8/8/8/PPP1PPPP/RNBQKBNR b KQkq - 0 4");
         this.moveCounter = 0;
         this.gameID = gameID;
         
@@ -22,7 +24,6 @@ class Game {
     }
 
     startGame(){
-        this.updataeBoard();
         let msg1 = {
             type: "CLIENT_DATA",
             color: "BLACK",
@@ -35,6 +36,7 @@ class Game {
         }
         this.socket1.send(JSON.stringify(msg1));
         this.socket2.send(JSON.stringify(msg2));
+        this.updataeBoard();
     }
 
     updataeBoard(){
@@ -61,13 +63,13 @@ class Game {
         //increase the move counter
         this.moveCounter++
         console.log(this.chess.ascii());
-        console.log(this.chess.moves())
+        console.log(this.chess.moves({verbose:true}));
+        console.log(this.chess.fen());
         this.updataeBoard();
     }
 
     onMessageWhite(message){
         var parsed = JSON.parse(message);
-        console.log('onMessageWhite')
         console.log(parsed.type);
         if(parsed.type=="MOVE"){
             this.makeMove(parsed.data);
@@ -76,7 +78,6 @@ class Game {
 
     onMessageBlack(message){
         var parsed = JSON.parse(message);
-        console.log('onMessageBlack')
         console.log(parsed);
         if(parsed.type=="MOVE"){
             this.makeMove(parsed.data);

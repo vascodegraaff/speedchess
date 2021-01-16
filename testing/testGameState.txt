@@ -1,0 +1,2 @@
+//pawn promotion
+rnb1kbnr/pppP1ppp/5q2/8/8/8/PPP1PPPP/RNBQKBNR b KQkq - 0 4
