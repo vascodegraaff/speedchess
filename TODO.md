@@ -4,6 +4,7 @@
 - move validation
 - edge cases (check, castling, prawn promotion)
 
+- captures dont work
 - set game state
 - distingish between player 1 and player 2 and rerender board on each move
 - timer

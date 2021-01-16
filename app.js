@@ -11,7 +11,8 @@ var WebSocket = require('ws');
 var indexRouter = require('./routes/index');
 var playRouter = require('./routes/play');
 
-var Game = require('./game/game')
+var Game = require('./game/game');
+const { GAME_STATE } = require('./game/messages');
 
 var app = express();
 
@@ -38,25 +39,42 @@ var gameID = 0;
 var games = {};
 var waitingPlayers = [];
 
+this.game = null;
+
 var gameID = 0;
 
 wss.on('connection', ws=> {
-  let connection = ws;
+  let socket = ws;
   connectionID++;
-  connection.id = connectionID;
+  socket.id = connectionID;
   let playerType = waitingPlayers.length%2 == 1? 'white' : 'black';
 
-  newConnection(connection);
+  newConnection(socket,gameID);
 
-  connection.send(playerType == 'white' ? "you are white": "you are black")
+  socket.send(playerType == 'white' ? "color: white": "color: black");
   
-  ws.on('message', message=>{
-    console.log(`Message: ${message}`);
-  });
-  ws.send("Hello from server");
+  console.log("client connected");
+  // ws.on('message', message=>{
+  //   var parsed = JSON.parse(message);
+  //   console.log(parsed);
+  //   if(parsed.type=="CLIENT_CONNECTED"){
+  //     console.log(parsed.type);
+  //   }
+    
+  //     //let parseMessage = JSON.parse(message.data);
+  //     // console.log(parseMessage);
+  //     // if(parseMessage.type == 'MOVE'){
+  //     //   console.log(JSON.parse(parseMessage.data))
+  //       // this.chess.move(parseMessage.data);
+  //     // }
+
+  // });
 });
 
 function newConnection(socket, gameID){
+  //connects to server
+  socket.send('Server connected to client');
+  //pushed player to the array of players waiting for a game
   waitingPlayers.push(socket);
 
   socket.onclose = () => {
@@ -65,15 +83,18 @@ function newConnection(socket, gameID){
       return ele != socket;
     });
   };
+  //when there are 2 or more players waiting for a game, we the two players and initialize a game.
   if(waitingPlayers.length >= 2) {
     gameID++;
     createGame(waitingPlayers[0], waitingPlayers[1], gameID, socket);
+    socket.send(`gameID: ${gameID}`);
     waitingPlayers = waitingPlayers.splice(2);
   }
 }
-function createGame(player1, player2, gameID, socket){
-  var game = new Game(player1, player2, gameID, socket);
-  console.log("game created");
+function createGame(player1, player2, gameID){
+  player1.send(`player 1 connected to game: ${gameID} as white`);
+  player2.send(`player 2 connected to game: ${gameID} as black`);
+  this.game = new Game(player1, player2, gameID);
 }
 
 // catch 404 and forward to error handler

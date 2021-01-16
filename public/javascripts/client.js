@@ -2,8 +2,18 @@
 var url = 'ws://localhost:8080';
 const connection = new WebSocket(url);
 
+let clientID = {};
+let gameID = {};
+let clientColor = null;
+
+
+
 connection.onopen = () => {
-  connection.send('Client connected');
+  msg = {
+    type: "CLIENT_CONNECTED",
+    data: null
+  }
+  connection.send(JSON.stringify(msg));
 }
 
 connection.onerror = (error) => {
@@ -11,8 +21,8 @@ connection.onerror = (error) => {
 }
 
 connection.onmessage = (e) => {
+  console.log(e.data);
   //console.log(`message recieved: ${e.data}`);
-  // console.log(e.date instanceof Blob);
   x = JSON.parse(e.data);
 
   if(x instanceof Array){
@@ -21,7 +31,6 @@ connection.onmessage = (e) => {
 }
 
 var map = {0:'a', 1:'b', 2:'c', 3:'d', 4:'e', 5:'f',6:'g',7:'h'};
-var map2 = {1:8, 2:7}
 
 var map3 = {
   "w": {
@@ -46,11 +55,10 @@ renderBoard = (board) => {
   for(i=0; i<8;i++){
     for(j=0; j<8; j++){
       id = map[j] + (8-i);
-      console.log(id);
       if(board[i][j] != null){
         x = board[i][j];
-        console.log(x.color, x.type);
-        console.log(map3[board[i][j].color][board[i][j].type]);
+        //console.log(x.color, x.type);
+        //console.log(map3[board[i][j].color][board[i][j].type]);
         document.getElementById(id).textContent = map3[board[i][j].color][board[i][j].type];
       }
       if(board[i][j] == null){
@@ -61,16 +69,18 @@ renderBoard = (board) => {
 }
 
 
-function moveValidate(from, to, piece){
-  connection.send(`Validate(${piece}-${from}:${to})`);
-}
 
 function move(from, to){
-    console.log(`${from} : ${to}`);
+    // console.log(`${from} : ${to}`);
     pieceName = document.getElementById(from).textContent;
-    moveValidate(moveParser(pieceName, from, to));
-    document.getElementById(from).textContent = '';
-    document.getElementById(to).textContent = pieceName;
+    msg = {
+      type: "MOVE",
+      data: moveParser(pieceName, from, to)
+    };
+    console.log(msg);
+    connection.send(JSON.stringify(msg));
+    // document.getElementById(from).textContent = '';
+    // document.getElementById(to).textContent = pieceName;
 }
 
 function moveParser(piece, from, to){
@@ -99,12 +109,12 @@ document.querySelectorAll('.cell').forEach(item => {
         
         if(counter == 0){
           piece1 = item.id;
-          var nextPiece = document.getElementById('d3');
-          nextPiece.style = 'background_color: #00ff00';
+          // var nextPiece = document.getElementById('d3');
+          // nextPiece.style = 'background_color: #00ff00';
           counter++;
         }else{
-          var nextPiece = document.getElementById('d3');
-          nextPiece.style = 'background-color: #eab676';
+          // var nextPiece = document.getElementById('d3');
+          // nextPiece.style = 'background-color: #eab676';
           piece2 = item.id
           counter = 0;
           move(piece1, piece2);
