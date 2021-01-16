@@ -1,6 +1,6 @@
 
 //var url = 'ws://localhost:8080';
-var url = 'ws://https://speedchezz.herokuapp.com:8080'
+var url = 'ws://speedchezz.herokuapp.com:8080'
 const socket = new WebSocket(url);
 
 let gameID = {};
