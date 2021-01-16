@@ -15,10 +15,46 @@
                 font-size: 50px;
             }
 
+            
+
             #loading {
     		        -webkit-animation: rotation 3s infinite linear;
                 margin-top:5%;
                 margin-bottom: 5%;
+            }
+
+            .description{
+              font-size: 30px;
+              text-align: center;
+              height: 600px;
+              width: 400px;
+              border-radius: 25px;
+              background-color: #DBCBB7;
+              position: fixed;
+              top: 20%;
+              left: 4%;
+            }
+
+            .title{
+              position: absolute;
+              left: 20px;
+            }
+            .info{
+              white-space: pre-line;
+              line-height: 1.3;
+              position: absolute;
+              font-size: 23px;
+              text-align: left;
+              top: 90px;
+              left: 20px;
+            }
+            
+            hr {
+              width:100%;
+              height:1px; 
+              background: rgb(0, 0, 0);
+              position: absolute;
+              top:60px
             }
 
             .button_container {
@@ -64,6 +100,18 @@
               transform: translateX(-9%) translateY(-25%) rotate(0deg);
             }
 
+            .play{
+              font-size: 20px;
+            }
+
+            .stats{
+              white-space: pre-line;
+              line-height: 2;
+              font-size: 25px;
+              position: relative;
+              bottom: 60px;
+            }
+
             @keyframes spin {
                 to {
                 -webkit-transform: rotate(360deg);
@@ -86,15 +134,41 @@
         </style>
     </head>
     <body>
-        <h1>Chess</h1
+      
+        <h1>Speed Chess</h1>
+        <div class="description">
+          <p class="title"><b>How to play?</b></p>
+          <hr />
+          <p class="info"><b>Each player is given 3 minutes
+            to make their moves. While it
+            is your turn to make a move,
+            your timer will keep counting 
+            down until you make a valid 
+            move. Same goes for the other
+            player.
+
+            The rules are the same as in
+            regular chess with the only 
+            difference being that the first
+            player to lose their king or run
+            out of time loses.</b>
+            </p>
+        </div>
+        
         <div class = "button_container">
           <button type="button" class="button">
-            <span>Play!</span>
+            <span class="play">Play!</span>
           </button>
         </div>
        
         <div>
             <img id="loading" src="splash-icon.png" width="300" height="300">
+        </div>
+        <div class="stats">
+          <p><b>Games Played: 0
+            Active games: 0
+            Online players: 0
+          </b></p>
         </div>
     </body>
 </html>
