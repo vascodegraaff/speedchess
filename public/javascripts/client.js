@@ -6,6 +6,7 @@ let gameID = {};
 let clientColor;
 let moveCounter = 0;
 let currentColor = "WHITE";
+let captures = [];
 
 
 socket.onopen = () => {
@@ -85,26 +86,40 @@ renderBoard = (board) => {
 
 function move(from, to) {
 	//console.log(`${from} : ${to}`);
-	var pieceName = document.getElementById(from).textContent;
-	var msg = {
-		type: "MOVE",
-		data: moveParser(pieceName, from, to),
-		color: clientColor
-	};
-	console.log(msg);
-	socket.send(JSON.stringify(msg));
+	var piece1 = document.getElementById(from).textContent;
+	var piece2 = document.getElementById(to).textContent;
+	if(piece1!=null){
+		var msg = {
+			type: "MOVE",
+			data: moveParser(piece1, piece2, from, to),
+			color: clientColor
+		};
+		console.log(msg);
+		socket.send(JSON.stringify(msg));
+	}
 	// document.getElementById(from).textContent = '';
 	// document.getElementById(to).textContent = pieceName;
 }
 
-function moveParser(piece, from, to) {
+function moveParser(piece1,piece2, from, to) {
 	var chessNotation;
-	if (piece === '♟︎' || piece === '♙') {
-		chessNotation = `${to}`;
+	console.log(piece2);
+	// if (piece1 === '♟︎' || piece1 === '♙') {
+	// 	if(captures){
+	// 		chessNotation = `${from[0]}x${to}`;
+	// 		console.log(chessNotation);
+	// 	}else{
+	// 		chessNotation = `${to}`;
+	// 	}
+	// }
+	// else {
+	// 	chessNotation = `${translate(piece)}${to}`;
+	// }
+	chessNotation = {
+		from: from,
+		to: to,
 	}
-	else {
-		chessNotation = `${translate(piece)}${to}`;
-	}
+	console.log(chessNotation);
 	return chessNotation;
 }
 
@@ -120,16 +135,17 @@ document.querySelectorAll('.cell').forEach(item => {
 		//only listens for moves when the currentColor is the same as clientColor
 		if (clientColor == currentColor) {
             //checks if two pieces are clicked
-			if (clickCounter == 0) {
+			if(clickCounter == 0) {
                 piece1 = item.id;
                 document.getElementById(piece1).style.boxShadow = "inset 0px 0px 400px 110px rgba(0, 0, 0, .7)";
 				clickCounter++;
-			} else {
+			}else{
 				piece2 = item.id
 				clickCounter = 0;
-                move(piece1, piece2);
-                document.getElementById(piece1).style.boxShadow = "none";
-			}
+				move(piece1, piece2);
+				document.getElementById(piece1).style.boxShadow = "none";
+
+			} 
 
 		}
 	})

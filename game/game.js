@@ -42,7 +42,15 @@ class Game {
         let msg = {
             type: "BOARD_STATE",
             data: this.chess.board(),
-            moveCount: this.moveCounter
+            possibleMoves: this.chess.moves({ verbose: true }),
+            moveCount: this.moveCounter,
+            gameOver: this.chess.game_over(),
+            inCheck: this.chess.in_check(),
+            inCheckmate: this.chess.in_checkmate(),
+            inDraw: this.chess.in_draw(),
+            inStalemate: this.chess.in_stalemate(),
+            inThreeFold: this.chess.in_threefold_repetition(),
+
         }
         this.socket1.send(JSON.stringify(msg));
         this.socket2.send(JSON.stringify(msg));
