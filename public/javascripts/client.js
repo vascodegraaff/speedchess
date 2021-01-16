@@ -1,5 +1,6 @@
 
-var url = 'ws://localhost:8080';
+//var url = 'ws://localhost:8080';
+var url = 'ws://https://speedchezz.herokuapp.com:8080'
 const socket = new WebSocket(url);
 
 let gameID = {};
@@ -31,9 +32,6 @@ socket.onmessage = (e) => {
 		case "CLIENT_DATA":
 			clientColor = message.color;
 			gameID = message.game;
-			if(clientColor=="BLACK"){
-				document.body.classList += "blackBoard"
-			}
 			break;
 		case "BOARD_STATE":
 			renderBoard(message.data);
@@ -149,9 +147,9 @@ function waitForMove(){
 					clickCounter = 0;
 					move(piece1, piece2);
 					document.getElementById(piece1).style.boxShadow = "none";
+
 				} 
 			}
 		})
 	})
 }
-waitForMove();
