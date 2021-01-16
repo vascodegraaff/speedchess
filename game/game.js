@@ -5,9 +5,10 @@ class Game {
     constructor(socket1, socket2, gameID) {
         this.socket1 = socket1;
         this.socket2 = socket2;
+        this.socket2.color = "WHITE";
+        this.socket1.color = "BLACK";
         this.chess = new Chess();
-        this.currentColor = 'white';
-        this.counter = 0;
+        this.moveCounter = 0;
         this.gameID = gameID;
         
         //this binds the function to this.onMessage and when a message is recieved, the function gets called
@@ -21,40 +22,47 @@ class Game {
     }
 
     startGame(){
-        // this.makeMove('e4');
-        // console.log(this.chess.ascii());
-        // console.log(this.chess.board());
-        // this.makeMove('e5');
-        // console.log(this.chess.ascii());
         this.updataeBoard();
-        // socket1.send(JSON.stringify(this.chess.board()));
-        // socket2.send(JSON.stringify(this.chess.board()));
+        let msg1 = {
+            type: "CLIENT_DATA",
+            color: "BLACK",
+            game: this.gameID
+        }
+        let msg2 = {
+            type: "CLIENT_DATA",
+            color: "WHITE",
+            game: this.gameID
+        }
+        this.socket1.send(JSON.stringify(msg1));
+        this.socket2.send(JSON.stringify(msg2));
     }
 
     updataeBoard(){
         console.log(this.chess.ascii());
-        this.socket1.send(JSON.stringify(this.chess.board()));
-        this.socket2.send(JSON.stringify(this.chess.board()));
+        let msg = {
+            type: "BOARD_STATE",
+            data: this.chess.board(),
+            moveCount: this.moveCounter
+        }
+        this.socket1.send(JSON.stringify(msg));
+        this.socket2.send(JSON.stringify(msg));
     }
 
-    // makeMove(move){
-    //     console.log(move);
-    //     console.log('makeMove')
-    //     this.chess.move(move);
-    //     this.updataeBoard();
-    // }
+    makeMove(move){
+        this.chess.move(move);
+        //increase the move counter
+        this.moveCounter++
+        console.log(this.chess.ascii());
+        console.log(this.chess.moves())
+        this.updataeBoard();
+    }
 
     onMessageWhite(message){
         var parsed = JSON.parse(message);
         console.log('onMessageWhite')
         console.log(parsed.type);
-        console.log(parsed.type=="MOVE");
         if(parsed.type=="MOVE"){
-            console.log(this.makeMove)
-            this.chess.move(parsed.data);
-            console.log(this.chess.ascii());
-            console.log(this.chess.possibleMoves())
-            this.updataeBoard();
+            this.makeMove(parsed.data);
         }
     }
 
@@ -63,7 +71,7 @@ class Game {
         console.log('onMessageBlack')
         console.log(parsed);
         if(parsed.type=="MOVE"){
-            this.chess.move(parsed.data);
+            this.makeMove(parsed.data);
         }
 
     }

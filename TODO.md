@@ -2,6 +2,9 @@
 ### backend
 - move generation
 - move validation
+- captures dont work, check out the wikipedia https://en.wikipedia.org/wiki/Algebraic_notation_(chess)#:~:text=When%20a%20piece%20makes%20a,captures%20the%20piece%20on%20d5).
+
+eg when 2 horses can eat a piece, you need to be able to distinguish between the two peices
 - edge cases (check, castling, prawn promotion)
 
 - captures dont work

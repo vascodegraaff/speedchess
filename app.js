@@ -34,7 +34,6 @@ app.use('/play', playRouter);
 
 
 const wss = new WebSocket.Server({ port: 8080})
-var connectionID = 0;
 var gameID = 0;
 var games = {};
 var waitingPlayers = [];
@@ -45,35 +44,15 @@ var gameID = 0;
 
 wss.on('connection', ws=> {
   let socket = ws;
-  connectionID++;
-  socket.id = connectionID;
-  let playerType = waitingPlayers.length%2 == 1? 'white' : 'black';
-
   newConnection(socket,gameID);
-
-  socket.send(playerType == 'white' ? "color: white": "color: black");
-  
-  console.log("client connected");
-  // ws.on('message', message=>{
-  //   var parsed = JSON.parse(message);
-  //   console.log(parsed);
-  //   if(parsed.type=="CLIENT_CONNECTED"){
-  //     console.log(parsed.type);
-  //   }
-    
-  //     //let parseMessage = JSON.parse(message.data);
-  //     // console.log(parseMessage);
-  //     // if(parseMessage.type == 'MOVE'){
-  //     //   console.log(JSON.parse(parseMessage.data))
-  //       // this.chess.move(parseMessage.data);
-  //     // }
-
-  // });
 });
 
 function newConnection(socket, gameID){
   //connects to server
-  socket.send('Server connected to client');
+  let msg = {
+    type: "SERVER_CONNECTED"
+  }
+  socket.send(JSON.stringify(msg));
   //pushed player to the array of players waiting for a game
   waitingPlayers.push(socket);
 
@@ -87,13 +66,10 @@ function newConnection(socket, gameID){
   if(waitingPlayers.length >= 2) {
     gameID++;
     createGame(waitingPlayers[0], waitingPlayers[1], gameID, socket);
-    socket.send(`gameID: ${gameID}`);
     waitingPlayers = waitingPlayers.splice(2);
   }
 }
 function createGame(player1, player2, gameID){
-  player1.send(`player 1 connected to game: ${gameID} as white`);
-  player2.send(`player 2 connected to game: ${gameID} as black`);
   this.game = new Game(player1, player2, gameID);
 }
 
