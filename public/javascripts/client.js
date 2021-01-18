@@ -81,6 +81,9 @@ function renderBoard(board){
 		}
 	}
 }
+function renderCaptures(captures){
+	document.get
+}
 
 
 
