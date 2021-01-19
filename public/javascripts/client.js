@@ -48,6 +48,7 @@ socket.onmessage = (e) => {
 			blackTime = message.blackTime;
 			whiteTime = message.whiteTime;
 			gameStart = message.gameStart;
+			//game start is true after white moves
 			//console.log(currentColor, clientColor);
 			break;
 
@@ -110,7 +111,22 @@ function renderBoard(board){
 	}
 }
 function renderCaptures(captures){
-	console.log(captures)
+	console.log(captures.w);
+	for(var piece in captures.w){
+		var whiteCap = document.getElementById("whiteCaptures");
+		for(var i = 1; i<= captures.w[piece]; i++){
+			//some problemo here
+			var newDiv = document.createElement('h5');
+			newDiv.className = 'captured piece';
+			whiteCap.appendChild(newDiv);
+		}
+	}
+	for(i=0; i<5;i++){
+		console.log(captures[0][i]);
+	}
+	for(i=0; i<5;i++){
+		console.log(captures[1][i]);
+	}
 }
 
 

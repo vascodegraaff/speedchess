@@ -1,4 +1,5 @@
 const { Chess } = require('./chess.js');
+const fs = require('fs');
 
 
 class Game {
@@ -54,6 +55,7 @@ class Game {
         this.currentColor = this.chess.turn() == "w" ? "WHITE": "BLACK";
         //check first if game is over before sending new game state
         if(this.chess.game_over()){
+
             if(this.chess.in_checkmate()){
                 var winner = this.chess.turn() == "w" ? "BLACK": "WHITE";
                 let msg = {
@@ -191,6 +193,11 @@ class Game {
             this.whiteWinOnTime();
             clearInterval();
         }
+    }
+
+
+    writeToJSON(){
+        
     }
 }
 
