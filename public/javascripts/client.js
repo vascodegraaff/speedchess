@@ -28,7 +28,6 @@ socket.onerror = (error) => {
     console.log(`WebSocket error: ${error}`);
 }
 
-
 socket.onmessage = (e) => {
 	//console.log(`message recieved: ${e.data}`);
 	let message = JSON.parse(e.data);
@@ -49,6 +48,7 @@ socket.onmessage = (e) => {
 			blackTime = message.blackTime;
 			whiteTime = message.whiteTime;
 			gameStart = message.gameStart;
+			//game start is true after white moves
 			//console.log(currentColor, clientColor);
 			break;
 
@@ -94,10 +94,6 @@ var map3 = {
 		"p": '♟︎'
 	}
 }
-
-var mapNum = { 1:'8', 2:'7', 3:'6', 4:'5', 5:'4', 6:'3', 7:'2', 8:'1'};
-var letters = "  h           g           f           e           d           c           b           a";
-
 function renderBoard(board){
 	for (i = 0; i < 8; i++) {
 		for (j = 0; j < 8; j++) {
@@ -113,12 +109,24 @@ function renderBoard(board){
 			}
 		}
 	}
-	if(clientColor == "BLACK"){
-		document.getElementsByClassName('atoh').textContent = letters;
-	}
 }
 function renderCaptures(captures){
-	console.log(captures)
+	console.log(captures.w);
+	for(var piece in captures.w){
+		var whiteCap = document.getElementById("whiteCaptures");
+		for(var i = 1; i<= captures.w[piece]; i++){
+			//some problemo here
+			var newDiv = document.createElement('h5');
+			newDiv.className = 'captured piece';
+			whiteCap.appendChild(newDiv);
+		}
+	}
+	for(i=0; i<5;i++){
+		console.log(captures[0][i]);
+	}
+	for(i=0; i<5;i++){
+		console.log(captures[1][i]);
+	}
 }
 
 
