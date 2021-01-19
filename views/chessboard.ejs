@@ -3,101 +3,7 @@
 
 <head>
     <title>MyChess</title>
-    <style>
-
-        html{
-            background-color: #DBCBB7;
-        }
-        p{
-            white-space: pre-line;
-            font-size: 25px;
-        }
-        .lost{
-            position: fixed;
-            top: 25%;
-            left: 3%;
-            width: 600px;
-            height: 320px;
-        }
-        .won{
-            position: fixed;
-            top: 55%;
-            left: 3%;
-            width: 600px;
-            height: 320px;
-        }
-        .moves{
-            position: fixed;
-            top: 25%;
-            right: 20%;
-        }
-        .whiteTime{
-            position: fixed;
-            top: 3%;
-            left: 40.5%;
-        }
-        .player{
-            width: 250px;
-            height: 80px;
-            position: fixed;
-            right:50%;
-            background-color: #ffffff;
-            color: #000000;
-            text-align: center;
-            border-radius: 25px;
-        }
-        .BlackTime{
-            position: fixed;
-            top: 3%;
-            right: 38%;
-        }
-        .opponent{
-            width: 250px;
-            height: 80px;
-            position: fixed;
-            left:52.5%;
-            background-color: #4E4B4B;
-            color: #ffffff;
-            text-align: center;
-            border-radius: 25px;
-        }
-        .chessboard {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            margin-top: -320px;
-            margin-left: -320px;
-            width: 640px;
-            height: 640px;
-            border: 25px solid #333;
-        }
-        .dark {
-            background-color: #873e23!important;
-
-        }
-        .cell {
-            float: left;
-            width: 80px;
-            height: 80px;
-            background-color: #eab676;
-            font-size:50px;
-            text-align:center;
-            display: table-cell;
-            vertical-align:middle;
-        }
-
-        .dark:hover{
-            filter: brightness(50%);
-        }
-
-        .cell:hover {
-            filter: brightness(50%);
-        }
-        body.blackBoard .chessboard, body.blackBoard .cell{
-            transform: rotate(180deg);
-        }
-
-    </style>
+    <link href="stylesheets/board.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -117,18 +23,45 @@
         <div id="blackCaptures"></div>
     </div>
 
-    <div class="moves">
-        <p><b>Moves Made:</b></p>
+    <div class="wait">
+        <b>Waiting for another player to join...</b>
     </div>
 
-    <div class="whiteTime" >
+    <div class="player-time">
+        <p><b>You</b></p>
+    </div>
+
+    <div class="player">
+        <p><b>Time left: 3:00</b></p>
+    </div>
+
+    <div class="opponent-time">
+        <p><b>Opponent</b></p>
+    </div>
+
+    <div class="opponent">
+        <p><b>Time left: 3:00</b></p>
+    </div>
+    <div class="numbers">
+        <div class="number">8</div>
+        <div class="number">7</div>
+        <div class="number">6</div>
+        <div class="number">5</div>
+        <div class="number">4</div>
+        <div class="number">3</div>
+        <div class="number">2</div>
+        <div class="number">1</div>
+    </div>
+    <div class="letters">
+        <p class="atoh">  a           b           c           d           e           f           g           h</p>
+    </div>
+    <div class="whiteTime player-time" >
         <p id="whiteTime">3:00</p>
     </div>
 
-    <div class="blackTime" >
+    <div class="blackTime opponent-time" >
         <p id="blackTime">3:00</p>
     </div>
-
     <div class="chessboard">
         <div class="row8">
             <div class='cell' id='a8'></div>

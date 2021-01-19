@@ -1,0 +1,116 @@
+html{
+    background-color: #DBCBB7;
+}
+p{
+    font-family: "Times New Roman", Times, serif;
+    white-space: pre-line;
+    font-size: 25px;
+}
+.numbers{
+    position: fixed;
+    top: 25%;
+    left: 33%;
+    height: 640px;
+    font-size: 25px;
+}
+.number{
+    height:80px;
+}
+
+.letters{
+    position: fixed;
+    top: 83%;
+    left: 37%;
+    width: 640px;
+    font-size: 25px;
+}
+.atoh{
+    white-space: pre-wrap;
+}
+.lost{
+    position: fixed;
+    top: 25%;
+    left: 3%;
+    width: 600px;
+    height: 320px;
+}
+.won{
+    position: fixed;
+    top: 55%;
+    left: 3%;
+    width: 600px;
+    height: 320px;
+}
+
+.wait{
+    font-size: 40px;
+    position: fixed;
+    top: 25%;
+    right: 2%;
+}
+.player-time{
+    position: fixed;
+    top: 3%;
+    left: 43%;
+}
+.player{
+    
+    width: 250px;
+    height: 80px;
+    position: fixed;
+    right:50%;
+    background-color: #ffffff;
+    color: #000000;
+    text-align: center;
+    border-radius: 25px;
+}
+.opponent-time{
+    position: fixed;
+    top: 3%;
+    right: 39%;
+}
+.opponent{
+    width: 250px;
+    height: 80px;
+    position: fixed;
+    left:52.5%;
+    background-color: #4E4B4B;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 25px;
+}
+.chessboard {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -320px;
+    margin-left: -320px;
+    width: 640px;
+    height: 640px;
+    border: 25px solid #333;
+}
+.dark {
+    background-color: #873e23!important;
+
+}
+.cell {
+    float: left;
+    width: 80px;
+    height: 80px;
+    background-color: #eab676;
+    font-size:50px;
+    text-align:center;
+    display: table-cell;
+    vertical-align:middle;
+}
+
+.dark:hover{
+    filter: brightness(50%);
+}
+
+.cell:hover {
+    filter: brightness(50%);
+}
+body.blackBoard .chessboard, body.blackBoard .cell{
+    transform: rotate(180deg);
+}
