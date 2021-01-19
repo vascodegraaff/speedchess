@@ -21,6 +21,7 @@ socket.onerror = (error) => {
     console.log(`WebSocket error: ${error}`);
 }
 
+
 socket.onmessage = (e) => {
 	//console.log(`message recieved: ${e.data}`);
 	let message = JSON.parse(e.data);
@@ -65,6 +66,10 @@ var map3 = {
 		"p": '♟︎'
 	}
 }
+
+var mapNum = { 1:'8', 2:'7', 3:'6', 4:'5', 5:'4', 6:'3', 7:'2', 8:'1'};
+var letters = "  h           g           f           e           d           c           b           a";
+
 function renderBoard(board){
 	for (i = 0; i < 8; i++) {
 		for (j = 0; j < 8; j++) {
@@ -79,6 +84,9 @@ function renderBoard(board){
 				document.getElementById(id).textContent = "";
 			}
 		}
+	}
+	if(clientColor == "BLACK"){
+		document.getElementsByClassName('atoh').textContent = letters;
 	}
 }
 
