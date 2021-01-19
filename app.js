@@ -12,7 +12,6 @@ var indexRouter = require('./routes/index');
 var playRouter = require('./routes/play');
 
 var Game = require('./game/game');
-const { GAME_STATE } = require('./game/messages');
 
 var app = express();
 
@@ -40,7 +39,6 @@ var waitingPlayers = [];
 
 this.game = null;
 
-var gameID = 0;
 
 wss.on('connection', ws=> {
   let socket = ws;
@@ -55,6 +53,7 @@ function newConnection(socket, gameID){
   socket.send(JSON.stringify(msg));
   //pushed player to the array of players waiting for a game
   waitingPlayers.push(socket);
+  
 
   socket.onclose = () => {
     //removes connection when socket gets closed
@@ -67,6 +66,11 @@ function newConnection(socket, gameID){
     gameID++;
     createGame(waitingPlayers[0], waitingPlayers[1], gameID, socket);
     waitingPlayers = waitingPlayers.splice(2);
+  }else if (waitingPlayers.length ==1){
+    let msg = {
+      type: "WAITING_FOR_OPPONENT"
+    }
+    waitingPlayers[0].send(JSON.stringify(msg));
   }
 }
 function createGame(player1, player2, gameID){

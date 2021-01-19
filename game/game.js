@@ -7,7 +7,14 @@ class Game {
         this.socket2 = socket2;
         this.socket2.color = "WHITE";
         this.socket1.color = "BLACK";
+        this.currentColor = "WHITE";
+        this.gameStart = false;
         this.chess = new Chess();
+        this.whiteTime = 180;
+        this.blackTime = 180;
+        this.timeElapsed = 0;
+        this.updateTime = this.updateTime.bind(this)
+        this.interval = setInterval(this.updateTime, 1000);
         //testing with different game states
         //this.chess = new Chess("rnb1kbnr/pppP1ppp/5q2/8/8/8/PPP1PPPP/RNBQKBNR b KQkq - 0 4");
         //checkmate
@@ -44,6 +51,7 @@ class Game {
     updataeBoard(){
         console.log(this.chess.ascii());
 
+        this.currentColor = this.chess.turn() == "w" ? "WHITE": "BLACK";
         //check first if game is over before sending new game state
         if(this.chess.game_over()){
             if(this.chess.in_checkmate()){
@@ -75,7 +83,10 @@ class Game {
             inCheck: this.chess.in_check(),
             inCheckmate: this.chess.in_checkmate(),
             turn: this.chess.turn(),
-
+            time: this.timeElipsed,
+            whiteTime: this.whiteTime,
+            blackTime: this.blackTime,
+            gameStart: this.gameStart,
         }
         this.socket1.send(JSON.stringify(msg));
         this.socket2.send(JSON.stringify(msg));
@@ -97,6 +108,7 @@ class Game {
         var parsed = JSON.parse(message);
         console.log(parsed.type);
         if(parsed.type=="MOVE"){
+            this.gameStart = true;
             this.makeMove(parsed.data);
         }
     }
@@ -146,7 +158,44 @@ class Game {
         this.socket1.send(JSON.stringify(msg));
         this.socket2.send(JSON.stringify(msg));
     }
+    whiteWinOnTime(){
+        let msg = {
+            type: "WHITE_WIN_ON_TIME",
+        }
+        this.socket1.send(JSON.stringify(msg));
+        this.socket2.send(JSON.stringify(msg));
+    }
+    blackWinOnTime(){
+        let msg = {
+            type: "BLACK_WIN_ON_TIME",
+        }
+        this.socket1.send(JSON.stringify(msg));
+        this.socket2.send(JSON.stringify(msg));
+    }
 
-
+    updateTime(){
+        if(this.gameStart){
+            this.timeElapsed++;
+            if(this.currentColor=="WHITE"){
+                this.whiteTime--;
+            }
+            if(this.currentColor=="BLACK"){
+                this.blackTime--;
+            }
+        }
+        if(this.whiteTime<=0){
+            this.blackWinOnTime();
+            clearInterval()
+        }
+        if(this.blackTime<=0){
+            this.whiteWinOnTime();
+            clearInterval();
+        }
+    }
 }
+
+
+
+
+
 module.exports = Game;

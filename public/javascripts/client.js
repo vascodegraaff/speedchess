@@ -8,6 +8,13 @@ let moveCounter = 0;
 let currentColor;
 let captures = [];
 let possibleMoves = [];
+let gameStart = false;
+
+
+let whiteTime = 180;
+let blackTime = 180;
+let timeElapsed = 0;
+
 
 socket.onopen = () => {
 	msg = {
@@ -36,9 +43,30 @@ socket.onmessage = (e) => {
 		case "BOARD_STATE":
 			renderBoard(message.data);
 			moveCounter = message.moveCount;
-			possibleMoves = message.possibleMoves
+			possibleMoves = message.possibleMoves;
 			currentColor = possibleMoves[0].color=='w'?"WHITE":"BLACK";
+			blackTime = message.blackTime;
+			whiteTime = message.whiteTime;
+			gameStart = message.gameStart;
 			//console.log(currentColor, clientColor);
+			break;
+
+		case "CAPTURES":
+			renderCaptures(message.data);
+			break;
+		case "WHITE_WIN_ON_TIME":
+			alert("white wins on time");
+			break;
+		case "BLACK_WIN_ON_TIME":
+			alert("black wins on time");
+			break;
+		case "GAME_OVER":
+			if(message.data=="STALEMATE"){
+				alert("Stalemate reached");
+			}
+			if(message.data=="WIN"){
+				alert(message.winner + "wins");
+			}
 			break;
 		default:
 			break;
@@ -82,7 +110,7 @@ function renderBoard(board){
 	}
 }
 function renderCaptures(captures){
-	document.get
+	console.log(captures)
 }
 
 
@@ -141,9 +169,28 @@ function waitForMove(){
 					clickCounter = 0;
 					move(piece1, piece2);
 					document.getElementById(piece1).style.boxShadow = "none";
-				} 
+				}
 			}
 		})
 	})
 }
+
+window.setInterval(() => {
+	if(gameStart){
+		timeElapsed++;
+		if(currentColor=="WHITE"){
+			if(whiteTime>=0){
+				whiteTime--;
+			}
+		}
+		if(currentColor=="BLACK"){
+			if(blackTime>=0){
+				blackTime--;
+			}
+		}
+		document.getElementById("whiteTime").textContent = whiteTime;
+		document.getElementById("blackTime").textContent = blackTime;
+		document.getElementById("timeElapsed").textContent = timeElapsed;
+	}
+}, 1000);
 waitForMove();

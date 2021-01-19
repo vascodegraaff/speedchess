@@ -31,7 +31,7 @@
             top: 25%;
             right: 20%;
         }
-        .player-time{
+        .whiteTime{
             position: fixed;
             top: 3%;
             left: 40.5%;
@@ -46,7 +46,7 @@
             text-align: center;
             border-radius: 25px;
         }
-        .opponent-time{
+        .BlackTime{
             position: fixed;
             top: 3%;
             right: 38%;
@@ -102,37 +102,31 @@
 
 <body>
     <div>
-        <p><b>Time elapsed:
-            0:00</b>
+        <p id="timeElapsed">Time elapsed:
+            0:00
         </p>
     </div>
 
     <div class="lost">
-        <p ><b>Pieces Lost:</b></p>
+        <p>White captures:</p>
+        <div id="whiteCaptures"></div>
     </div>
 
     <div class="won">
-        <p ><b>Pieces Captured:</b></p>
+        <p>Black captures:</p>
+        <div id="blackCaptures"></div>
     </div>
 
     <div class="moves">
         <p><b>Moves Made:</b></p>
     </div>
 
-    <div class="player-time">
-        <p><b>Your Time left</b></p>
+    <div class="whiteTime" >
+        <p id="whiteTime">3:00</p>
     </div>
 
-    <div class="player">
-        <p><b>3:00</b></p>
-    </div>
-
-    <div class="opponent-time">
-        <p><b>Opponent's Time left</b></p>
-    </div>
-
-    <div class="opponent">
-        <p><b>3:00</b></p>
+    <div class="blackTime" >
+        <p id="blackTime">3:00</p>
     </div>
 
     <div class="chessboard">
