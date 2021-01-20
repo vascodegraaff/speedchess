@@ -114,8 +114,6 @@ class Game {
         //increase the move counter
         this.moveCounter++
         console.log(this.chess.ascii());
-        console.log(this.chess.moves({verbose:true}));
-        console.log(this.chess.fen());
         this.updataeBoard();
     }
 
