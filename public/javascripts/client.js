@@ -31,7 +31,8 @@ socket.onerror = (error) => {
 socket.onclose = () => {
 	msg = {
 		type: "CLIENT_DISCONNECTED",
-		data: clientColor,
+		data: gameOver,
+		clientColor: clientColor,
 	}
 }
 
