@@ -1,5 +1,7 @@
 const { Chess } = require('./chess.js');
-const fs = require('fs');
+
+var fs = require('fs');
+
 class Game {
     constructor(socket1, socket2, gameID) {
         this.socket1 = socket1;
@@ -30,6 +32,13 @@ class Game {
         this.socket1.on('message', this.onMessageBlack)
 
         this.startGame();
+
+        this.gamesPlayed;
+        this.whiteWins;
+        this.blackWins;
+        this.draws;
+
+        this.readJSON();
     }
 
     startGame(){
@@ -50,14 +59,15 @@ class Game {
 
     updataeBoard(){
         console.log(this.chess.ascii());
-        console.log(this.chess.fen())
+        //console.log(this.chess.fen())
 
         this.currentColor = this.chess.turn() == "w" ? "WHITE": "BLACK";
         //check first if game is over before sending new game state
         if(this.chess.game_over()){
-
+            this.gamesPlayed++;
             if(this.chess.in_checkmate()){
                 var winner = this.chess.turn() == "w" ? "BLACK": "WHITE";
+                winner == "WHITE"? this.whiteWins++: this.blackWins++;
                 let msg = {
                     type: "GAMEOVER",
                     data: "WIN",
@@ -65,14 +75,17 @@ class Game {
                 }
                 this.socket1.send(JSON.stringify(msg));
                 this.socket2.send(JSON.stringify(msg));
+                this.writeJSON();
             }
             if(this.chess.in_stalemate()){
+                this.draws++;
                 let msg = {
                     type: "GAMEOVER",
                     data: "STALEMATE",
                 }
                 this.socket1.send(JSON.stringify(msg));
                 this.socket2.send(JSON.stringify(msg));
+                this.writeJSON();
             }
         }
 
@@ -196,8 +209,33 @@ class Game {
     }
 
 
-    writeToJSON(){
-        
+    readJSON(){
+        fs.readFile('public/data/data.JSON', 'utf8', (err, jsonString) => {
+            if (err) {
+                console.log("File read failed:", err)
+                return
+            }
+            var string = JSON.parse(jsonString);
+            this.gamesPlayed = string.gamesPlayed;
+            this.whiteWins = string.whiteWins;
+            this.blackWins = string.blackWins;
+            this.draws = string.draws;
+        })
+    }
+    writeJSON(){
+        var data = {
+            gamesPlayed: this.gamesPlayed,
+            whiteWins: this.whiteWins,
+            blackWins: this.blackWins,
+            draws: this.draws,
+        }
+        console.log(this.gamesPlayed, this.whiteWins, this.blackWins, this.draws);
+        fs.writeFile('public/data/data.JSON', JSON.stringify(data), err=>{
+            if(err){
+                console.log('Error writing to file',err)
+            } 
+        })
+
     }
 }
 
