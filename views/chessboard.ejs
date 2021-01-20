@@ -7,151 +7,140 @@
 </head>
 
 <body>
-    <div>
-        <p id="timeElapsed">Time elapsed:
-            0:00
-        </p>
-    </div>
-
-    <div class="lost">
-        <p>White captures:</p>
-        <div id="whiteCaptures"></div>
-    </div>
-
-    <div class="won">
-        <p>Black captures:</p>
-        <div id="blackCaptures"></div>
-    </div>
-
-    <div class="wait">
-        <b>Waiting for another player to join...</b>
-    </div>
-
-    <div class="player-time">
-        <p><b>You</b></p>
-    </div>
-
-    <div class="player">
-        <p><b>Time left: 3:00</b></p>
-    </div>
-
-    <div class="opponent-time">
-        <p><b>Opponent</b></p>
-    </div>
-
-    <div class="opponent">
-        <p><b>Time left: 3:00</b></p>
-    </div>
-    <div class="numbers">
-        <div class="number">8</div>
-        <div class="number">7</div>
-        <div class="number">6</div>
-        <div class="number">5</div>
-        <div class="number">4</div>
-        <div class="number">3</div>
-        <div class="number">2</div>
-        <div class="number">1</div>
-    </div>
-    <div class="letters">
-        <p class="atoh">  a           b           c           d           e           f           g           h</p>
-    </div>
-    <div class="whiteTime player-time" >
-        <p id="whiteTime">3:00</p>
-    </div>
-
-    <div class="blackTime opponent-time" >
-        <p id="blackTime">3:00</p>
-    </div>
-    <div class="chessboard">
-        <div class="row8">
-            <div class='cell' id='a8'></div>
-            <div class='dark cell' id='b8'></div>
-            <div class='cell' id='c8'></div>
-            <div class='dark cell' id='d8'></div>
-            <div class='cell' id='e8'></div>
-            <div class='dark cell' id='f8'></div>
-            <div class='cell' id='g8'></div>
-            <div class='dark cell' id='h8'></div>
+    <div class="top">
+        <div class="fill">
+            <p>Time elapsed:</p>
+            <p id="timeElapsed">0:00</p>
         </div>
-
-        <div class="row7">
-            <div class='dark cell' id='a7'></div>
-            <div class='cell' id='b7'></div>
-            <div class='dark cell' id='c7'></div>
-            <div class='cell' id='d7'></div>
-            <div class='dark cell' id='e7'></div>
-            <div class='cell' id='f7'></div>
-            <div class='dark cell' id='g7'></div>
-            <div class='cell' id='h7'></div>
+        <div class="statusBar fill">
+            <h1 id="statusText">Waiting for another player</h1>
         </div>
-
-        <div class='row6'>
-            <div class='cell' id='a6'></div>
-            <div class='dark cell' id='b6'></div>
-            <div class='cell' id='c6'></div>
-            <div class='dark cell' id='d6'></div>
-            <div class='cell' id='e6'></div>
-            <div class='dark cell' id='f6'></div>
-            <div class='cell' id='g6'></div>
-            <div class='dark cell' id='h6'></div>
-        </div>
-
-        <div class='row5'>
-            <div class='dark cell' id='a5'></div>
-            <div class='cell' id='b5'></div>
-            <div class='dark cell' id='c5'></div>
-            <div class='cell' id='d5'></div>
-            <div class='dark cell' id='e5'></div>
-            <div class='cell' id='f5'></div>
-            <div class='dark cell' id='g5'></div>
-            <div class='cell' id='h5'></div>
-        </div>
-
-        <div class='row4'>
-            <div class='cell' id='a4'></div>
-            <div class='dark cell' id='b4'></div>
-            <div class='cell' id='c4'></div>
-            <div class='dark cell' id='d4'></div>
-            <div class='cell' id='e4'></div>
-            <div class='dark cell' id='f4'></div>
-            <div class='cell' id='g4'></div>
-            <div class='dark cell' id='h4'></div>
-        </div>
-
-        <div class='row3'>
-            <div class='dark cell' id='a3'></div>
-            <div class='cell' id='b3'></div>
-            <div class='dark cell' id='c3'></div>
-            <div class='cell' id='d3'></div>
-            <div class='dark cell' id='e3'></div>
-            <div class='cell' id='f3'></div>
-            <div class='dark cell' id='g3'></div>
-            <div class='cell' id='h3'></div>
-        </div>
-
-        <div class='row2'>
-            <div class='cell' id='a2'></div>
-            <div class='dark cell' id='b2'></div>
-            <div class='cell' id='c2'></div>
-            <div class='dark cell' id='d2'></div>
-            <div class='cell' id='e2'></div>
-            <div class='dark cell' id='f2'></div>
-            <div class='cell' id='g2'></div>
-            <div class='dark cell' id='h2'></div>
-        </div>
-
-        <div class='row1'>
-            <div class='dark cell' id='a1'></div>
-            <div class='cell' id='b1'></div>
-            <div class='dark cell' id='c1'></div>
-            <div class='cell' id='d1'></div>
-            <div class='dark cell' id='e1'></div>
-            <div class='cell' id='f1'></div>
-            <div class='dark cell' id='g1'></div>
-            <div class='cell' id='h1'></div>
+        <div class="fill">
+            <span></span>
         </div>
 
     </div>
+    <div class="mainBody">
+
+        <div class="center">
+            <div class="timers">
+                <div class="player">
+                    <b><p id="whiteTime">3:00</p></b>
+                </div>
+
+                <div class="opponent">
+                    <b><p id="blackTime">3:00</p></b>
+                </div>
+
+            </div>
+            <div class="chessboard">
+                <div class="row8">
+                    <div class='cell' id='a8'></div>
+                    <div class='dark cell' id='b8'></div>
+                    <div class='cell' id='c8'></div>
+                    <div class='dark cell' id='d8'></div>
+                    <div class='cell' id='e8'></div>
+                    <div class='dark cell' id='f8'></div>
+                    <div class='cell' id='g8'></div>
+                    <div class='dark cell' id='h8'></div>
+                </div>
+
+                <div class="row7">
+                    <div class='dark cell' id='a7'></div>
+                    <div class='cell' id='b7'></div>
+                    <div class='dark cell' id='c7'></div>
+                    <div class='cell' id='d7'></div>
+                    <div class='dark cell' id='e7'></div>
+                    <div class='cell' id='f7'></div>
+                    <div class='dark cell' id='g7'></div>
+                    <div class='cell' id='h7'></div>
+                </div>
+
+                <div class='row6'>
+                    <div class='cell' id='a6'></div>
+                    <div class='dark cell' id='b6'></div>
+                    <div class='cell' id='c6'></div>
+                    <div class='dark cell' id='d6'></div>
+                    <div class='cell' id='e6'></div>
+                    <div class='dark cell' id='f6'></div>
+                    <div class='cell' id='g6'></div>
+                    <div class='dark cell' id='h6'></div>
+                </div>
+
+                <div class='row5'>
+                    <div class='dark cell' id='a5'></div>
+                    <div class='cell' id='b5'></div>
+                    <div class='dark cell' id='c5'></div>
+                    <div class='cell' id='d5'></div>
+                    <div class='dark cell' id='e5'></div>
+                    <div class='cell' id='f5'></div>
+                    <div class='dark cell' id='g5'></div>
+                    <div class='cell' id='h5'></div>
+                </div>
+
+                <div class='row4'>
+                    <div class='cell' id='a4'></div>
+                    <div class='dark cell' id='b4'></div>
+                    <div class='cell' id='c4'></div>
+                    <div class='dark cell' id='d4'></div>
+                    <div class='cell' id='e4'></div>
+                    <div class='dark cell' id='f4'></div>
+                    <div class='cell' id='g4'></div>
+                    <div class='dark cell' id='h4'></div>
+                </div>
+
+                <div class='row3'>
+                    <div class='dark cell' id='a3'></div>
+                    <div class='cell' id='b3'></div>
+                    <div class='dark cell' id='c3'></div>
+                    <div class='cell' id='d3'></div>
+                    <div class='dark cell' id='e3'></div>
+                    <div class='cell' id='f3'></div>
+                    <div class='dark cell' id='g3'></div>
+                    <div class='cell' id='h3'></div>
+                </div>
+
+                <div class='row2'>
+                    <div class='cell' id='a2'></div>
+                    <div class='dark cell' id='b2'></div>
+                    <div class='cell' id='c2'></div>
+                    <div class='dark cell' id='d2'></div>
+                    <div class='cell' id='e2'></div>
+                    <div class='dark cell' id='f2'></div>
+                    <div class='cell' id='g2'></div>
+                    <div class='dark cell' id='h2'></div>
+                </div>
+
+                <div class='row1'>
+                    <div class='dark cell' id='a1'></div>
+                    <div class='cell' id='b1'></div>
+                    <div class='dark cell' id='c1'></div>
+                    <div class='cell' id='d1'></div>
+                    <div class='dark cell' id='e1'></div>
+                    <div class='cell' id='f1'></div>
+                    <div class='dark cell' id='g1'></div>
+                    <div class='cell' id='h1'></div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="sideBar">
+            <div class="lost">
+                <p>White captures:</p>
+                <div id="whiteCaptures" class="captures"></div>
+            </div>
+
+            <div class="won">
+                <p>Black captures:</p>
+                <div id="blackCaptures" class="captures"></div>
+            </div>
+        </div>
+    </div>
+
+
+
+
 
     <!-- Poor coding standard, only for demonstration purposes.
              JavaScript code should not be part of HTML documents.

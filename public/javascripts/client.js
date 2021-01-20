@@ -9,6 +9,7 @@ let currentColor;
 let captures = [];
 let possibleMoves = [];
 let gameStart = false;
+let gameOver = false;
 
 
 let whiteTime = 180;
@@ -26,6 +27,12 @@ socket.onopen = () => {
 
 socket.onerror = (error) => {
     console.log(`WebSocket error: ${error}`);
+}
+socket.onclose = () => {
+	msg = {
+		type: "CLIENT_DISCONNECTED",
+		data: clientColor,
+	}
 }
 
 socket.onmessage = (e) => {
@@ -50,23 +57,25 @@ socket.onmessage = (e) => {
 			gameStart = message.gameStart;
 			//game start is true after white moves
 			//console.log(currentColor, clientColor);
+			renderStatus(currentColor);
 			break;
 
 		case "CAPTURES":
 			renderCaptures(message.data);
 			break;
 		case "WHITE_WIN_ON_TIME":
-			alert("white wins on time");
+			renderStatus("WHITE_WINS");
 			break;
 		case "BLACK_WIN_ON_TIME":
-			alert("black wins on time");
+			renderStatus("BLACK_WINS");
 			break;
-		case "GAME_OVER":
+		case "GAMEOVER":
+			gameOver = true;
 			if(message.data=="STALEMATE"){
-				alert("Stalemate reached");
+				renderStatus("STALEMATE");
 			}
 			if(message.data=="WIN"){
-				alert(message.winner + "wins");
+				message.winner == 'WHITE' ? renderStatus('WHITE_WINS'): renderStatus("BLACK_WINS");
 			}
 			break;
 		default:
@@ -111,25 +120,69 @@ function renderBoard(board){
 	}
 }
 function renderCaptures(captures){
-	console.log(captures.w);
-	for(var piece in captures.w){
-		var whiteCap = document.getElementById("whiteCaptures");
-		for(var i = 1; i<= captures.w[piece]; i++){
-			//some problemo here
-			var newDiv = document.createElement('h5');
-			newDiv.className = 'captured piece';
+	//captures = {w:{p: 8, n: 2, b: 2, r: 2, q: 1}, b:{p: 8, n: 2, b: 2, r: 2, q: 1}};
+	var whiteCap = document.getElementById("whiteCaptures");
+	whiteCap.innerHTML = '';
+	var counterWhite = 0;
+	for(var piece in captures.b){
+		for(var i = 1; i<= captures.b[piece]; i++){
+			var newDiv = document.createElement('h2');
+			newDiv.className = 'capturedPiece';
+			newDiv.textContent = map3['b'][piece];
 			whiteCap.appendChild(newDiv);
+			counterWhite++;
+			if(counterWhite%4==0){
+				var lineBreak = document.createElement("div");
+				lineBreak.className = "break";
+				whiteCap.appendChild(lineBreak);
+			}
 		}
 	}
-	for(i=0; i<5;i++){
-		console.log(captures[0][i]);
+	var blackCap = document.getElementById("blackCaptures");
+	blackCap.innerHTML = '';
+	var counterBlack = 0;
+	for(var piece in captures.w){
+		for(var i = 1; i<= captures.w[piece]; i++){
+			var newDiv = document.createElement('h2');
+			newDiv.className = 'capturedPiece';
+			newDiv.textContent = map3['w'][piece];
+			blackCap.appendChild(newDiv);
+			counterBlack++;
+			if(counterBlack%4==0){
+				var lineBreak = document.createElement("div");
+				lineBreak.className = "break";
+				blackCap.appendChild(lineBreak);
+			}
+		}
 	}
-	for(i=0; i<5;i++){
-		console.log(captures[1][i]);
-	}
+
 }
 
+function renderStatus(data){
+	console.log(data);
+	switch(data){
+		case "WHITE": 
+			document.getElementById("statusText").textContent = "Whites turn to move";
+			break;
 
+		case "BLACK":
+			document.getElementById("statusText").textContent = "Black turn to move";
+			break;
+		case "STALEMATE":
+			document.getElementById("statusText").textContent = "Stalemate";
+			break;
+		case "WHITE_WINS":
+			document.getElementById("statusText").textContent = "White Wins";
+			break;
+		case "BLACK_WINS":
+			document.getElementById("statusText").textContent = "Black Wins";
+			break;
+
+		default:
+			break;
+	}
+
+}
 
 function move(from, to) {
 	//console.log(`${from} : ${to}`);
@@ -192,21 +245,27 @@ function waitForMove(){
 }
 
 window.setInterval(() => {
-	if(gameStart){
+	if(gameStart&&!gameOver){
 		timeElapsed++;
 		if(currentColor=="WHITE"){
-			if(whiteTime>=0){
+			if(whiteTime>=1){
 				whiteTime--;
 			}
 		}
 		if(currentColor=="BLACK"){
-			if(blackTime>=0){
+			if(blackTime>=1){
 				blackTime--;
 			}
 		}
-		document.getElementById("whiteTime").textContent = whiteTime;
-		document.getElementById("blackTime").textContent = blackTime;
-		document.getElementById("timeElapsed").textContent = timeElapsed;
+		blackTimeMin = String(Math.floor(blackTime/60));
+		blackTimeSec = blackTime%60;
+		whiteTimeMin = String(Math.floor(whiteTime/60));
+		whiteTimeSec = whiteTime%60;
+		elapsedMin = String(Math.floor(timeElapsed/60));
+		elapsedSec = timeElapsed%60;
+		document.getElementById("whiteTime").textContent = whiteTimeMin + ":" + String(whiteTimeSec).padStart(2, "0");
+		document.getElementById("blackTime").textContent = blackTimeMin + ":" + String(blackTimeSec).padStart(2, "0");
+		document.getElementById("timeElapsed").textContent = elapsedMin + ":" + String(elapsedSec).padStart(2, "0");
 	}
 }, 1000);
 waitForMove();

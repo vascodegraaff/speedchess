@@ -41,56 +41,56 @@ this.game = null;
 
 
 wss.on('connection', ws=> {
-  let socket = ws;
-  newConnection(socket,gameID);
+let socket = ws;
+newConnection(socket,gameID);
 });
 
 function newConnection(socket, gameID){
-  //connects to server
-  let msg = {
+//connects to server
+let msg = {
     type: "SERVER_CONNECTED"
-  }
-  socket.send(JSON.stringify(msg));
-  //pushed player to the array of players waiting for a game
-  waitingPlayers.push(socket);
-  
+}
+socket.send(JSON.stringify(msg));
+//pushed player to the array of players waiting for a game
+waitingPlayers.push(socket);
 
-  socket.onclose = () => {
+
+socket.onclose = () => {
     //removes connection when socket gets closed
     waitingPlayers = waitingPlayers.filter(function(ele){
-      return ele != socket;
+    return ele != socket;
     });
-  };
-  //when there are 2 or more players waiting for a game, we the two players and initialize a game.
-  if(waitingPlayers.length >= 2) {
+};
+//when there are 2 or more players waiting for a game, we the two players and initialize a game.
+if(waitingPlayers.length >= 2) {
     gameID++;
     createGame(waitingPlayers[0], waitingPlayers[1], gameID, socket);
     waitingPlayers = waitingPlayers.splice(2);
-  }else if (waitingPlayers.length ==1){
+}else if (waitingPlayers.length ==1){
     let msg = {
-      type: "WAITING_FOR_OPPONENT"
+    type: "WAITING_FOR_OPPONENT"
     }
     waitingPlayers[0].send(JSON.stringify(msg));
-  }
+}
 }
 function createGame(player1, player2, gameID){
-  this.game = new Game(player1, player2, gameID);
+this.game = new Game(player1, player2, gameID);
 }
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+next(createError(404));
 });
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// set locals, only providing error in development
+res.locals.message = err.message;
+res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+// render the error page
+res.status(err.status || 500);
+res.render('error');
 });
 
 module.exports = app;

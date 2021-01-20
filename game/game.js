@@ -1,7 +1,5 @@
 const { Chess } = require('./chess.js');
 const fs = require('fs');
-
-
 class Game {
     constructor(socket1, socket2, gameID) {
         this.socket1 = socket1;
@@ -20,6 +18,7 @@ class Game {
         //this.chess = new Chess("rnb1kbnr/pppP1ppp/5q2/8/8/8/PPP1PPPP/RNBQKBNR b KQkq - 0 4");
         //checkmate
         //this.chess = new Chess("rnb1kbnr/pppp1ppp/8/4p3/5PPq/8/PPPPP2P/RNBQKBNR w KQkq - 1 3")
+        //this.chess = Chess("Qnbk1b2/p1pp4/8/4p3/3P4/8/Pq3P2/3BK3 w - - 0 14")
         this.moveCounter = 0;
         this.gameID = gameID;
         
@@ -51,6 +50,7 @@ class Game {
 
     updataeBoard(){
         console.log(this.chess.ascii());
+        console.log(this.chess.fen())
 
         this.currentColor = this.chess.turn() == "w" ? "WHITE": "BLACK";
         //check first if game is over before sending new game state
@@ -185,11 +185,11 @@ class Game {
                 this.blackTime--;
             }
         }
-        if(this.whiteTime<=0){
+        if(this.whiteTime<=1){
             this.blackWinOnTime();
             clearInterval()
         }
-        if(this.blackTime<=0){
+        if(this.blackTime<=1){
             this.whiteWinOnTime();
             clearInterval();
         }
