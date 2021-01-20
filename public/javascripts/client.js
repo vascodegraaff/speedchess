@@ -66,9 +66,11 @@ socket.onmessage = (e) => {
 			break;
 		case "WHITE_WIN_ON_TIME":
 			renderStatus("WHITE_WINS");
+			gameOver = true;
 			break;
 		case "BLACK_WIN_ON_TIME":
 			renderStatus("BLACK_WINS");
+			gameOver = true;
 			break;
 		case "GAMEOVER":
 			gameOver = true;
@@ -160,7 +162,6 @@ function renderCaptures(captures){
 }
 
 function renderStatus(data){
-	console.log(data);
 	switch(data){
 		case "WHITE": 
 			document.getElementById("statusText").textContent = "Whites turn to move";
