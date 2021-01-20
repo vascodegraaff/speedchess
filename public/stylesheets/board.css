@@ -1,9 +1,8 @@
 html{
     background-color: #DBCBB7;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: "Trebuchet MS", sans-serif;
 }
 p{
-    font-family: "Georgia",serif;
     white-space: pre-line;
     font-size: 25px;
 }

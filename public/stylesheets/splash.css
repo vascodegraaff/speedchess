@@ -1,6 +1,7 @@
 html {
     background: repeating-conic-gradient(#818181 0% 25%, transparent 0% 50%) 50% / 100px 100px;
     text-align: center;
+    font-family: "Trebuchet MS", sans-serif;
 }
 
 h1{
@@ -102,8 +103,13 @@ hr {
   white-space: pre-line;
   line-height: 2;
   font-size: 25px;
+  font-weight: bold;
   position: relative;
-  bottom: 60px;
+  left: 600px;
+  bottom: 520px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 @keyframes spin {
