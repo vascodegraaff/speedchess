@@ -134,7 +134,6 @@ class Game {
         if(parsed.type=="MOVE" && !this.gameOver){
             this.makeMove(parsed.data);
         }
-
     }
 
     moveValidate(move){
