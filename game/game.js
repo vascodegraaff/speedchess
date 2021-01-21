@@ -10,6 +10,7 @@ class Game {
         this.socket1.color = "BLACK";
         this.currentColor = "WHITE";
         this.gameStart = false;
+        this.gameOver = false;
         this.chess = new Chess();
         this.whiteTime = 180;
         this.blackTime = 180;
@@ -65,6 +66,7 @@ class Game {
         //check first if game is over before sending new game state
         if(this.chess.game_over()){
             this.gamesPlayed++;
+            this.gameOver = true;
             if(this.chess.in_checkmate()){
                 var winner = this.chess.turn() == "w" ? "BLACK": "WHITE";
                 winner == "WHITE"? this.whiteWins++: this.blackWins++;
@@ -114,15 +116,13 @@ class Game {
         //increase the move counter
         this.moveCounter++
         console.log(this.chess.ascii());
-        console.log(this.chess.moves({verbose:true}));
-        console.log(this.chess.fen());
         this.updataeBoard();
     }
 
     onMessageWhite(message){
         var parsed = JSON.parse(message);
         console.log(parsed.type);
-        if(parsed.type=="MOVE"){
+        if(parsed.type=="MOVE" && !this.gameOver){
             this.gameStart = true;
             this.makeMove(parsed.data);
         }
@@ -131,10 +131,9 @@ class Game {
     onMessageBlack(message){
         var parsed = JSON.parse(message);
         console.log(parsed);
-        if(parsed.type=="MOVE"){
+        if(parsed.type=="MOVE" && !this.gameOver){
             this.makeMove(parsed.data);
         }
-
     }
 
     moveValidate(move){
@@ -174,6 +173,7 @@ class Game {
         this.socket2.send(JSON.stringify(msg));
     }
     whiteWinOnTime(){
+        this.gameOver = true;
         let msg = {
             type: "WHITE_WIN_ON_TIME",
         }
@@ -181,6 +181,7 @@ class Game {
         this.socket2.send(JSON.stringify(msg));
     }
     blackWinOnTime(){
+        this.gameOver = true;
         let msg = {
             type: "BLACK_WIN_ON_TIME",
         }
@@ -238,9 +239,5 @@ class Game {
 
     }
 }
-
-
-
-
 
 module.exports = Game;
