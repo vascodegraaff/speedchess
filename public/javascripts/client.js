@@ -1,6 +1,7 @@
 //var url = 'wss://speedchezz.herokuapp.com:8080'
 // var url = 'ws://localhost:8080';
-var url = location.origin.replace(/^http/,'ws').replace('3000','8080');
+var secure = location.origin.includes('localhost') ? 'ws':'wss';
+var url = location.origin.replace(/^http/, secure);
 console.log(url);
 const socket = new WebSocket(url);
 
