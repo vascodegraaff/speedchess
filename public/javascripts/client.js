@@ -2,6 +2,8 @@
 var url = 'ws://localhost:8080';
 const socket = new WebSocket(url);
 
+var sound = new Audio("../audio/move.wav");
+
 let gameID = {};
 let clientColor;
 let moveCounter = 0;
@@ -119,6 +121,8 @@ function renderBoard(board){
 			}
 		}
 	}
+
+	sound.play();
 }
 function renderCaptures(captures){
 	//captures = {w:{p: 8, n: 2, b: 2, r: 2, q: 1}, b:{p: 8, n: 2, b: 2, r: 2, q: 1}};
