@@ -63,10 +63,12 @@ socket.onclose = () => {
 };
 //when there are 2 or more players waiting for a game, we the two players and initialize a game.
 if(waitingPlayers.length >= 2) {
+    console.log(waitingPlayers)
     gameID++;
     createGame(waitingPlayers[0], waitingPlayers[1], gameID, socket);
     waitingPlayers = waitingPlayers.splice(2);
 }else if (waitingPlayers.length ==1){
+    console.log(waitingPlayers)
     let msg = {
     type: "WAITING_FOR_OPPONENT"
     }
