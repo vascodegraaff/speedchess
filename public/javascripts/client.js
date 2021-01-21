@@ -6,9 +6,9 @@
 
 let socket; 
 if (location.hostname.includes('heroku')) { 
-	socket= new WebSocket('wss://speedchezz.herokuapp.com/');
+	socket= new WebSocket('wss:/speedchezz.herokuapp.com/');
 } else { 
-	socket = new WebSocket("ws://localhost:3000");
+	socket = new WebSocket("ws:/localhost:3000");
 }
 
 //const socket = new WebSocket(url);
