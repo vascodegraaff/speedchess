@@ -205,7 +205,7 @@ class Game {
         this.gamesPlayed++;
         this.writeJSON();
         this.socket1.close();
-        this.socetk2.close();
+        this.socket2.close();
     }
 
     updateTime(){
