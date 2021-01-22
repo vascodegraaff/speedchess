@@ -41,11 +41,7 @@ socket.onerror = (error) => {
 	console.log(`WebSocket error: ${error}`);
 }
 socket.onclose = () => {
-	msg = {
-		type: "CLIENT_DISCONNECTED",
-		data: gameOver,
-		clientColor: clientColor,
-	}
+	console.log("socket closed");
 }
 
 socket.onmessage = (e) => {

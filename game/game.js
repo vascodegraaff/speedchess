@@ -11,6 +11,7 @@ class Game {
         this.currentColor = "WHITE";
         this.gameStart = false;
         this.gameOver = false;
+        this.winOnTime = false;
         this.chess = new Chess();
         this.whiteTime = 180;
         this.blackTime = 180;
@@ -55,10 +56,10 @@ class Game {
         }
         this.socket1.send(JSON.stringify(msg1));
         this.socket2.send(JSON.stringify(msg2));
-        this.updataeBoard();
+        this.updateBoard();
     }
 
-    updataeBoard(){
+    updateBoard(){
         console.log(this.chess.ascii());
         //console.log(this.chess.fen())
 
@@ -70,6 +71,7 @@ class Game {
             if(this.chess.in_checkmate()){
                 var winner = this.chess.turn() == "w" ? "BLACK": "WHITE";
                 winner == "WHITE"? this.whiteWins++: this.blackWins++;
+                this.gamesPlayed++;
                 let msg = {
                     type: "GAMEOVER",
                     data: "WIN",
@@ -78,9 +80,12 @@ class Game {
                 this.socket1.send(JSON.stringify(msg));
                 this.socket2.send(JSON.stringify(msg));
                 this.writeJSON();
+                this.socket1.close();
+                this.socket2.close();
             }
             if(this.chess.in_stalemate()){
                 this.draws++;
+                this.gamesPlayed++;
                 let msg = {
                     type: "GAMEOVER",
                     data: "STALEMATE",
@@ -88,6 +93,8 @@ class Game {
                 this.socket1.send(JSON.stringify(msg));
                 this.socket2.send(JSON.stringify(msg));
                 this.writeJSON();
+                this.socket1.close();
+                this.socket2.close();
             }
         }
 
@@ -179,6 +186,11 @@ class Game {
         }
         this.socket1.send(JSON.stringify(msg));
         this.socket2.send(JSON.stringify(msg));
+        this.whiteWins++;
+        this.gamesPlayed++;
+        this.writeJSON();
+        this.socket1.close();
+        this.socket2.close();
     }
     blackWinOnTime(){
         this.gameOver = true;
@@ -187,6 +199,11 @@ class Game {
         }
         this.socket1.send(JSON.stringify(msg));
         this.socket2.send(JSON.stringify(msg));
+        this.blackWins++;
+        this.gamesPlayed++;
+        this.writeJSON();
+        this.socket1.close();
+        this.socetk2.close();
     }
 
     updateTime(){
@@ -199,11 +216,11 @@ class Game {
                 this.blackTime--;
             }
         }
-        if(this.whiteTime<=1){
+        if(this.whiteTime<=0){
             this.blackWinOnTime();
             clearInterval()
         }
-        if(this.blackTime<=1){
+        if(this.blackTime<=0){
             this.whiteWinOnTime();
             clearInterval();
         }

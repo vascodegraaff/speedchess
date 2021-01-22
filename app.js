@@ -70,7 +70,7 @@ function newConnection(socket, gameID) {
         createGame(waitingPlayers[0], waitingPlayers[1], gameID, socket);
         waitingPlayers = waitingPlayers.splice(2);
     } else if (waitingPlayers.length == 1) {
-        console.log(waitingPlayers)
+        //console.log(waitingPlayers)
         let msg = {
             type: "WAITING_FOR_OPPONENT"
         }
