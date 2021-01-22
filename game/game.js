@@ -122,8 +122,8 @@ class Game {
         this.chess.move(move);
         //increase the move counter
         this.moveCounter++
-        console.log(this.chess.ascii());
-        this.updataeBoard();
+        //console.log(this.chess.ascii());
+        this.updateBoard();
     }
 
     onMessageWhite(message){
@@ -131,6 +131,7 @@ class Game {
         console.log(parsed.type);
         if(parsed.type=="MOVE" && !this.gameOver){
             this.gameStart = true;
+            console.log(parsed.data);
             this.makeMove(parsed.data);
         }
     }
@@ -139,6 +140,7 @@ class Game {
         var parsed = JSON.parse(message);
         console.log(parsed);
         if(parsed.type=="MOVE" && !this.gameOver){
+            console.log(parsed.data);
             this.makeMove(parsed.data);
         }
     }
